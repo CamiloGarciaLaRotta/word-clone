@@ -1,16 +1,17 @@
 import React, {useState} from "react";
 
-const Guess = () => {
+const Guess = ({submitGuess}) => {
   const [guess, setGuess] = useState("");
 
   const handleGuessSubmit = (event) => {
     event.preventDefault();
-    console.log(guess.toUpperCase())
+    submitGuess(guess.toLocaleUpperCase())
     setGuess("")
   }
 
   const handleGuessInput = (event) => {
-    setGuess(event.target.value)
+    const guess = event.target.value.replace(/\s/g,'')
+    setGuess(guess)
   };
 
   return (
