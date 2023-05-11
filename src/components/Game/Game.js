@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import Attempts, { newAttempt, padAttempts } from '../Attempts'
 import Input from '../Input'
+import Result from '../Result'
 import { sample } from '../../utils';
 import { WORDS } from '../../data';
 import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
@@ -34,7 +35,8 @@ const Game = () => {
 
   return <>
     <Attempts attempts={attempts} answer={answer}/>
-    <Input submitGuess={submitGuess} />
+    <Input submitGuess={submitGuess} numGuesses={numGuesses} />
+    <Result answer={answer} currGuess={attempts[numGuesses-1]} numGuesses={numGuesses} />
   </>;
 }
 
