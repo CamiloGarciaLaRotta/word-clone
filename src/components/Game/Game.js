@@ -8,7 +8,7 @@ import { WORDS } from '../../data';
 import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
 
 // Pick a random word on every pageload.
-const answer = sample(WORDS);
+let answer = sample(WORDS);
 // To make debugging easier, we'll log the solution in the console.
 console.info({ answer });
 
@@ -33,7 +33,26 @@ const Game = () => {
     setNumGuesses(numGuesses+1)
   }
 
+  const restartGame = () => {
+    setNumGuesses(0)
+    setAttempts(padAttempts([]))
+    answer = sample(WORDS);
+    console.info({ answer });
+  }
+
   return <>
+     <button
+      onClick={restartGame}
+      style={{
+        border:"dashed",
+        color:"blue",
+        radius : "30%",
+        borderRadius: "25px",
+        textAlign: "center"
+      }}
+    >
+      Restart Game
+    </button>
     <Attempts attempts={attempts} answer={answer}/>
     <Input submitGuess={submitGuess} numGuesses={numGuesses} />
     <Result answer={answer} currGuess={attempts[numGuesses-1]} numGuesses={numGuesses} />
