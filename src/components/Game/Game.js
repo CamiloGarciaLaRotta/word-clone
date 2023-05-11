@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 
-import Attempts from '../Attempts'
-import Guess from '../Guess'
+import Attempts, { newAttempt, padAttempts } from '../Attempts'
+import Input from '../Input'
 import { sample } from '../../utils';
 import { WORDS } from '../../data';
+import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -12,17 +13,28 @@ console.info({ answer });
 
 const Game = () => {
 
-  const [attempts, setAttempts] = useState([]);
+  // a guess is a user input
+  const [numGuesses, setNumGuesses] = useState(0);
+
+  // an attempt includes guesses and placeholders for future guesses
+  const [attempts, setAttempts] = useState(padAttempts([]));
 
   const submitGuess = (guess) => {
+    if (numGuesses >= NUM_OF_GUESSES_ALLOWED) {
+      return;
+    }
+
+    // repace an empty attempt with latest user attempt
     const newAttempts = [...attempts]
-    newAttempts.push({id: crypto.randomUUID(), value: guess})
+    newAttempts[numGuesses] = newAttempt(guess)
+
     setAttempts(newAttempts)
+    setNumGuesses(numGuesses+1)
   }
 
   return <>
     <Attempts attempts={attempts}/>
-    <Guess submitGuess={submitGuess} />
+    <Input submitGuess={submitGuess} />
   </>;
 }
 
