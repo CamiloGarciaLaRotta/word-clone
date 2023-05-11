@@ -1,18 +1,27 @@
 import React from "react";
 import { range } from "../../utils";
+import { checkGuess } from "../../game-helpers";
 import {NUM_OF_GUESSES_ALLOWED} from "../../constants"
 
-function Attempts({attempts}) {
+function Attempts({attempts, answer}) {
   const attemptsToRender = [...attempts];
 
   return (
   <div className="guess-results">
     {padAttempts(attemptsToRender).map(
-      (attempt)=>{
+      (attempt) => {
+        const result = checkGuess(attempt.value, answer)
 
         const cells = (attempt.value === "")
-          ? range(0,5).map((_, idx)=>(<span className="cell" key={`${attempt.key}-${idx}`}></span>))
-          : attempt.value.split('').map((letter, idx)=>(<span className="cell" key={`${attempt.key}-${idx}`}>{letter}</span>))
+          ? range(0,5).map(
+            (_, idx)=>{
+              return <span className="cell" key={`${attempt.key}-${idx}`}></span>
+            })
+          : attempt.value.split('').map(
+            (letter, idx) => {
+              const style = result[idx].status
+              return <span className={`cell ${style}`} key={`${attempt.key}-${idx}`}>{letter}</span>
+            })
 
         return (
           <p className="guess" key={attempt.key}>

@@ -33,7 +33,7 @@ const Game = () => {
   }
 
   return <>
-    <Attempts attempts={attempts}/>
+    <Attempts attempts={attempts} answer={answer}/>
     <Input submitGuess={submitGuess} />
   </>;
 }
